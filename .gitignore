@@ -1,0 +1,16 @@
+*.iws
+*.ipr
+*.iml
+.idea
+.DS_Store
+._*
+out
+*.aux
+*.fdb*
+*.fls
+*.log
+*.gz
+*.pdf
+*.out
+*.toc
+target

@@ -1,0 +1,288 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[nottoc]{tocbibind}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[hidelinks]{hyperref}
+\usepackage[dvipsnames,table]{xcolor}
+% Front matter
+
+\title{Information Theory -- Homework 2}
+\author{Zohreh Sadeghi\thanks{zsadeghi@uw.edu}}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\clearpage
+
+\section{Parity Error of a Generator Matrix}
+
+This conceptually makes sense, since the total error of a generator matrix using
+its own parity matrix has to be zero.
+
+However, we can mathematically prove this as well. For a given code $x$ generated
+by generator matrix $G$, we have $x=xG$. Since $x$ is a valid code, we can use the
+identity that its transposed form multiplied by the parity matrix will yield a zero
+matrix (i.e. $Hx^T=\textbf{0}$).
+
+Starting from here, we can write:
+
+\begin{align*}
+  &Hx^T=\textbf{0}\\
+  &\Rightarrow H(xG)^T=\textbf{0}
+\end{align*}
+
+Using the lemma $(A.B)^T=B^T.A^T$, we can continue:
+
+\begin{align*}
+  &H(xG)^T=\textbf{0} \\
+  &\Rightarrow HG^Tx^T=\textbf{0}
+\end{align*}
+
+Since $x$ is nonzero, we can write
+
+\begin{align*}
+  &HG^Tx^T=\textbf{0} \\
+  &\Rightarrow HG^T=\textbf{0} \\
+  &\Rightarrow (HG^T)^T=(\textbf{0})^T \\
+  &\Rightarrow G.H^T=\textbf{0} \\
+\end{align*}
+
+\begin{flushright}
+  $\blacksquare$
+\end{flushright}
+
+\section{Single-error-correcting Hamming Codes}
+
+\paragraph{a.} For the first five non-trivial Hamming codes
+(i.e. $r \in \{3, 4, 5, 6, 7\}$) we have:
+
+\begin{itemize}
+  \item \textbf{$r=3$} : $m=3n=2^3-1=7$; $k=2^3-1-3=4$. We have $[7,4]$.
+  \item \textbf{$r=4$} : $m=4n=2^4-1=15$; $k=2^4-1-4=11$. We have $[15,11]$.
+  \item \textbf{$r=5$} : $m=5n=2^5-1=31$; $k=2^5-1-5=26$. We have $[31,26]$.
+  \item \textbf{$r=6$} : $m=6n=2^6-1=63$; $k=2^6-1-6=57$. We have $[63,57]$.
+  \item \textbf{$r=7$} : $m=7n=2^7-1=127$; $k=2^7-1-7=120$. We have $[127,120]$.
+\end{itemize}
+
+\paragraph{b.} To calculate the rate, we calculate the fraction $\frac{k}{m}$
+using the values we deduced for $m$ and $k$:
+
+\begin{itemize}
+  \item $r=3 \Rightarrow \frac{k}{m}=\frac{4}{7}=0.571428571$
+  \item $r=4 \Rightarrow \frac{k}{m}=\frac{11}{15}=0.733333333$
+  \item $r=5 \Rightarrow \frac{k}{m}=\frac{26}{31}=0.838709677$
+  \item $r=6 \Rightarrow \frac{k}{m}=\frac{57}{63}=0.904761905$
+  \item $r=7 \Rightarrow \frac{k}{m}=\frac{120}{127}=0.94488189$
+\end{itemize}
+
+\paragraph{c.} Given channel error probability $q$, we can derive the probability
+$p_e$ for decoding errors in each case as such:
+
+For code $C \subset \{0,1\}^n$, the probability with which we will get the \textit{correct}
+codeword is:
+
+\begin{align*}
+  P_{\overline{e}}=(1-q)^m+mq(1-q)^{m-1}
+\end{align*}
+
+Therefore, the probability of decoding errors, will be the complement of this value,
+yielding:
+
+\begin{align*}
+  P_e=1-P_{\overline{e}}=1-(1-q)^m-mq(1-q)^{m-1}
+\end{align*}
+
+Since $m=2^r-1$ we always have that $m\stackrel{2}{=}1$, therefore, this can be
+rewritten as
+
+\begin{align*}
+  P_e&=1+(q-1)^m-mq(q-1)^{m-1} \\
+     &=1+(q-1)(q-1)^{m-1}-mq(q-1)^{m-1}\\
+     &=1+\Big(q-1-mq\Big)(q-1)^{m-1}\\
+     &=1+\Big((1-m)q-1\Big)(q-1)^{m-1}\\
+     &=1-\Big(1-(1-m)q\Big)(1-q)^{m-1}\\
+     &=1-\Big(1+(m-1)q\Big)(1-q)^{m-1}
+\end{align*}
+
+Since $\Big(1+(m-1)q\Big)(1-q)^{m-1}$ is always nonnegative, this expression holds
+so long as this value is not greater than $1$.
+
+\section{Systematic Codes}
+
+\paragraph{a.} For generator matrix
+
+\begin{align*}
+  G=\begin{bmatrix}
+    1 & 0 & 1 & 0 & 1 & 1 \\
+    0 & 1 & 1 & 1 & 0 & 1 \\
+    0 & 1 & 1 & 0 & 1 & 0
+  \end{bmatrix}
+\end{align*}
+
+To transform the matrix into systematic form $G'=[I_3|P]$ we will have:
+
+\begin{align*}
+  G_1=\begin{bmatrix}
+    1 & 0 & 1 & 0 & 1 & 1 \\
+    0 & 1 & 1 & 1 & 0 & 1 \\
+    0 & 1 & 1 & 0 & 1 & 0
+  \end{bmatrix}
+\end{align*}
+
+Starting with $(0,0)$:
+
+\begin{align*}
+  \Rightarrow G_2=\begin{bmatrix}
+    1 & 0 & 1 & 0 & 1 & 1\\
+    0 & 1 & 1 & 1 & 0 & 1\\
+    0 & 1 & 1 & 0 & 1 & 0
+  \end{bmatrix}
+\end{align*}
+
+Starting with $(1,1)$:
+
+\begin{align*}
+  \Rightarrow G_3=\begin{bmatrix}
+    1 & 0 & 1 & 0 & 1 & 1\\
+    0 & 1 & 1 & 1 & 0 & 1\\
+    0 & 0 & 0 & 1 & 1 & 1
+  \end{bmatrix}
+\end{align*}
+
+Starting with $(2,2)$:
+
+\begin{align*}
+  \Rightarrow G_4=\begin{bmatrix}
+    1 & 0 & 0 & 1 & 1 & 1\\
+    0 & 1 & 1 & 1 & 0 & 1\\
+    0 & 0 & 1 & 0 & 1 & 1
+  \end{bmatrix}
+\end{align*}
+
+Pivoting on $(2,2)$:
+
+\begin{align*}
+  \Rightarrow G_5=\begin{bmatrix}
+    1 & 0 & 0 & 1 & 1 & 1\\
+    0 & 1 & 0 & 1 & 1 & 0\\
+    0 & 0 & 1 & 0 & 1 & 1
+  \end{bmatrix}
+\end{align*}
+
+Finally, we have matrix $G'$:
+
+\begin{align*}
+  \Rightarrow G'=\begin{bmatrix}
+    1 & 0 & 0 & 1 & 1 & 1\\
+    0 & 1 & 0 & 1 & 1 & 0\\
+    0 & 0 & 1 & 0 & 1 & 1
+  \end{bmatrix}
+\end{align*}
+
+Given the above matrix, the parity check matrix of the form $H'=[-P^T|I_3]$
+will be:
+
+\begin{align*}
+  H'=\begin{bmatrix}
+    1 & 1 & 0 & 1 & 0 & 0 \\
+    1 & 1 & 1 & 0 & 1 & 0 \\
+    1 & 0 & 1 & 0 & 0 & 1
+  \end{bmatrix}
+\end{align*}
+
+The code generated by this matrix will be:
+
+\begin{align*}
+  C&=\{x|H'x^T=0\}\\
+   &=\{000000, 001000, 010000, 011000\}
+\end{align*}
+
+\paragraph{b.} Given the above codeset $C$, the standard array can be formed
+using the coset leaders (i.e. $\{0,1\}^6-C$) ordered according to their weight.
+
+Only the first 15 cosets are chosen for this example, and not all are included
+since there are $64-4=60$ ($64$ being the total number of words within $\{0,1\}^6$
+and $4$ being the number of valid codewords from $C$) of them.
+
+\begin{center}
+  \begin{tabular}{c|c c c}
+    000000 & 001000 & 010000 & 011000 \\
+    \hline
+    000001 & 001001 & 010001 & 011001 \\
+    000010 & 001010 & 010010 & 011010 \\
+    000100 & 001100 & 010100 & 011100 \\
+    001000 & 010000 & 011000 & 100000 \\
+    100000 & 101000 & 110000 & 111000 \\
+    000011 & 001011 & 010011 & 011011 \\
+    000101 & 001101 & 010101 & 011101 \\
+    001001 & 010001 & 011001 & 100001 \\
+    010001 & 011001 & 100001 & 101001 \\
+    100001 & 101001 & 110001 & 111001 \\
+    000110 & 001110 & 010110 & 011110 \\
+    001010 & 010010 & 011010 & 100010 \\
+    010010 & 011010 & 100010 & 101010 \\
+    100010 & 101010 & 110010 & 111010 \\
+    100100 & 101100 & 110100 & 111100 \\
+  \end{tabular}
+\end{center}
+
+\paragraph{c.} Given that the weight of a codeword is the number of its nonzero
+bits, we have the following weight distribution in $C$ as can be seen above:
+
+\begin{itemize}
+  \item $|\{c|w(c)=\textbf{0} \land c \in C\}| = \textbf{1}$
+  \item $|\{c|w(c)=\textbf{1} \land c \in C\}| = \textbf{2}$
+  \item $|\{c|w(c)=\textbf{2} \land c \in C\}| = \textbf{1}$
+  \item $|\{c|w(c)=\textbf{3} \land c \in C\}| = \textbf{0}$
+  \item $|\{c|w(c)=\textbf{4} \land c \in C\}| = \textbf{0}$
+  \item $|\{c|w(c)=\textbf{5} \land c \in C\}| = \textbf{0}$
+  \item $|\{c|w(c)=\textbf{6} \land c \in C\}| = \textbf{0}$
+\end{itemize}
+
+\paragraph{d.} Given a 6-bit code block, here is the interpretation of the block:
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \cellcolor{YellowGreen} $d_6$ & \cellcolor{YellowGreen} $d_5$ & \cellcolor{GreenYellow} $p_4$ & \cellcolor{YellowGreen} $d_3$ & \cellcolor{GreenYellow} $p_2$ & \cellcolor{GreenYellow} $p_1$ \\
+    \hline
+  \end{tabular}
+\end{center}
+
+where $d_i$ is a data bit and $p_i$ is a parity bit.
+
+Considering
+
+\begin{align*}
+  & d_3 = 1 \\
+  & d_5 = 0 \\
+  & d_6 = 1 \\
+  & p_1 = d_3 + d_5 \\
+  & p_2 = d_3 + d_6 \\
+  & p_4 = d_5 + d_6 \\
+\end{align*}
+
+with even parity, we will have the payload of the message as:
+
+\begin{center}
+  \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \cellcolor{YellowGreen} $1$ & \cellcolor{YellowGreen} $0$ & \cellcolor{GreenYellow} $1$ & \cellcolor{YellowGreen} $1$ & \cellcolor{GreenYellow} $0$ & \cellcolor{GreenYellow} $1$ \\
+    \hline
+  \end{tabular}
+\end{center}
+
+When receiving code $111001$, we can see that parity bits will add up to zero:
+
+\begin{align*}
+  (1 + 1 + 0)_2=0
+\end{align*}
+
+which means that we can read the message from the $d_i$ bits as $110$.
+
+\end{document}

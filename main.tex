@@ -131,6 +131,13 @@ rewritten as
 Since $\Big(1+(m-1)q\Big)(1-q)^{m-1}$ is always nonnegative, this expression holds
 so long as this value is not greater than $1$.
 
+\begin{align*}
+  & \Big(1+(m-1)q\Big)(1-q)^{m-1} \leq 1 \\
+  & \Rightarrow 1+(m-1)q \leq (1-q)^{1-m}
+\end{align*}
+
+We can use substitution to follow through with this identity.
+
 \section{Systematic Codes}
 
 \paragraph{a.} For generator matrix
@@ -306,10 +313,13 @@ which means that we can read the message from the $d_i$ bits as $110$.
 
 \section{Code Project}
 
+This algorithm functions in asymptoic time $\mathbb{O}(n)$ and based on trial runs
+can correct up to \textbf{three} errors.
+
 The answer to this question has been implemented in Java and uses Apache Maven
 as the build tool.
 
-You have two options to run the code.
+You have two options to run the code, which we explore in the next sections.
 
 \subsection{Building from Source}
 
@@ -346,5 +356,46 @@ This JAR file optionally takes 2 arguments for \texttt{n} and \texttt{k}.
 
 You can download the prebuilt JAR file of the project from \href{https://github.com/zsadeghi/info-theory-final/releases/tag/release}{the releases section}
 of the Github repository for this project.
+
+\section{Reed-Solomon Codes}
+
+\section{Bonus Question}
+
+The first part of the question (i.e. the identity $G.H^T=0$) has already been proven
+in the first question.
+
+Given a generator matrix
+
+\begin{align*}
+  G = \begin{bmatrix}
+    G_1 & 0 \\
+    0 & G_2
+  \end{bmatrix}
+\end{align*}
+
+we can easily observe that the length of the word decoded by this matrix is the sum
+of the lengths of the words decodable by $G_1$ and $G_2$ individually.
+
+Therefore, $k_G=k_{G_1} + K_{G_2}=k+k=2k$.
+
+In the same vein, the codewords that are accepted by this generator matrix has the
+combined breadth of the two matrices, namely $n_1+n_2$. However, the dimension for
+the space is reduced by the smaller of the two, since only the lower parts of the
+input space can be understood by the one with the smaller dimension.
+
+As such, the dimension will be $d=\min\{d_1,d_2\}$.
+
+So for this generator matrix, we will have a $<n_1+n_2,2k,\min\{d_1,d_2\}>$ code.
+
+For the generator matrix $[G_1|G_2]$ the same arguments can be made. The only
+difference is that in this case, since the generator matrix is a combination of
+the two original matrices, any difficiency introduced by one will be covered by
+the others since no two columns are linear combinations of each other.
+
+On the other hand, since the height of the matrix (i.e. $k$) is now only as tall
+as either of the original matrices (for both of which this value is $k$), this
+generator matrix will encode/decode words of no longer than $k$ characters.
+
+As such, the dimension will be preserved, and we will have a $<n_1+n_2,k,d>$ code.
 
 \end{document}

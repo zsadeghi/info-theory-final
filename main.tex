@@ -8,10 +8,29 @@
 \usepackage{amssymb}
 \usepackage[hidelinks]{hyperref}
 \usepackage[dvipsnames,table]{xcolor}
+\usepackage{courier}
+
+\definecolorset{RGB}{}{}{dark-grey,50,48,46;link-blue,0,0,153}
+
+\hypersetup{%
+  linktoc=all,%
+  linkcolor=link-blue,%
+  urlcolor=link-blue,%
+  colorlinks=true,%
+}
 % Front matter
 
 \title{Information Theory -- Homework 2}
 \author{Zohreh Sadeghi\thanks{zsadeghi@uw.edu}}
+
+% Custom commands
+
+\newcommand{\shellprompt}[1]{{%
+\vspace{0.3in}%
+\hangindent=0.5in%
+\small{\texttt{\$ #1}}%
+\vspace{0.3in}%
+}}
 
 \begin{document}
 
@@ -284,5 +303,48 @@ When receiving code $111001$, we can see that parity bits will add up to zero:
 \end{align*}
 
 which means that we can read the message from the $d_i$ bits as $110$.
+
+\section{Code Project}
+
+The answer to this question has been implemented in Java and uses Apache Maven
+as the build tool.
+
+You have two options to run the code.
+
+\subsection{Building from Source}
+
+On a macOS machine you can download \href{http://brew.sh}{Homebrew} and then in a
+Terminal window run:
+
+\shellprompt{brew install maven}
+
+to download and install Apache Maven.
+
+The code can be found in \url{https://github.com/zsadeghi/info-theory-final}. You can
+either use the web UI to download the contents of the repository as a ZIP file or you
+can clone the repository using the command line:
+
+\shellprompt{git clone https://github.com/zsadeghi/info-theory-final}
+
+After which the relevant directories will be copied into your machine. You can then
+go to the directory containing the code:
+
+\shellprompt{cd info-theory-final/encdec/main}
+
+This folder contains a \texttt{pom.xml} file which can be used to build the project:
+
+\shellprompt{mvn clean install}
+
+This command creates a directory called \texttt{target} under which you can find the
+executable JAR file of the project:
+
+\shellprompt{java -jar target/encdec.jar}
+
+This JAR file optionally takes 2 arguments for \texttt{n} and \texttt{k}.
+
+\subsection{Download the JAR File}
+
+You can download the prebuilt JAR file of the project from \href{https://github.com/zsadeghi/info-theory-final/releases/tag/release}{the releases section}
+of the Github repository for this project.
 
 \end{document}
